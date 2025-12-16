@@ -19,14 +19,14 @@
                     </ul>
                 </li>
 
-                {{-- <li><a class="nav-link scrollto" href="{{ route('kurikulum') }}">Kurikulum</a></li> --}}
+                <li><a class="nav-link scrollto" href="{{ route('kurikulum') }}">Kurikulum</a></li>
 
-                <li class="dropdown"><a href="{{ route('kurikulum') }}"><span>Kurikulum</span> <i class="bi bi-chevron-down"></i></a>
+                {{-- <li class="dropdown"><a href="{{ route('kurikulum') }}"><span>Kurikulum</span> <i class="bi bi-chevron-down"></i></a>
                     <ul>
                         <li><a href="{{ route('kurikulum') }}">Kurikulum</a></li>
                         <li><a href="{{ route('modulPembelajaran') }}">Modul</a></li>
                     </ul>
-                </li>
+                </li> --}}
 
                 <li class="dropdown"><a href="{{ route('berita') }}"><span>Berita</span> <i class="bi bi-chevron-down"></i></a>
                     <ul>
