@@ -432,6 +432,7 @@ class LandingController extends Controller
         $ppdbDeskripsi = Ppdb::where('tahun', $tahunIni)->first()->deskripsi;
         $ppdbVidio = Ppdb::where('tahun', $tahunIni)->first()->link;
         $ppdbFile = Ppdb::where('tahun', $tahunIni)->first()->file;
+        $ppdbImage = Ppdb::where('tahun', $tahunIni)->first()->brosur;
 
         return view('pages.guest.ppdb.ppdb',
             [
@@ -440,6 +441,7 @@ class LandingController extends Controller
                 'ppdbDeskripsi' => $ppdbDeskripsi,
                 'ppdbVidio' => $ppdbVidio,
                 'ppdbFile' => $ppdbFile,
+                'ppdbImage' => $ppdbImage,
                 'kelasMaster' => $kelasMaster
             ]
         );
