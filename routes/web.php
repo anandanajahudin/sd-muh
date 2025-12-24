@@ -73,6 +73,7 @@ Route::get('/24-tv', [LandingController::class, 'tv'])->name('tv');
 Route::get('/24-tv/{berita}', [LandingController::class, 'tvDetail'])->name('tvDetail');
 
 // PPDB
+Route::get('/spmb', [LandingController::class, 'ppdb'])->name('spmb');
 Route::get('/ppdb', [LandingController::class, 'ppdb'])->name('ppdb');
 // Route::get('/ppdb', [LandingController::class, 'ppdbKelas'])->name('ppdbKelas');
 Route::get('/ppdb/detail-kelas/{kelas}', [LandingController::class, 'ppdbKelas'])->name('ppdb.detail');

@@ -43,7 +43,7 @@
                         // $tahunIni = date('Y');
                         $ppdbTahunIni = Ppdb::where('tahun', 2026)->first()->tahun_ajaran;
                     @endphp
-                    <a class="nav-link scrollto" href="{{ route('ppdb') }}">
+                    <a class="nav-link scrollto" href="{{ route('spmb') }}">
                         SPMB {{ $ppdbTahunIni }}
                     </a>
                 </li>
