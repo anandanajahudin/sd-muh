@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use App\Models\Berita;
 use App\Models\User;
 
@@ -82,23 +83,28 @@ class BeritaController extends Controller
             'id_user' => 'required',
         ]);
 
-        Berita::create([
-            'judul' => $request->judul,
-            'jenis' => $request->jenis,
-            'link_vidio' => $request->link_vidio,
-            'deskripsi' => $request->deskripsi,
-            'gambar' => '',
-            'keterangan_img' => $request->keterangan_img,
-            'tgl_agenda' => $request->tgl_agenda,
-            'id_user' => $request->id_user,
-        ]);
+        $berita = new Berita();
+        $berita->judul          = $request->judul;
+        $berita->jenis          = $request->jenis;
+        $berita->link_vidio     = $request->link_vidio;
+        $berita->deskripsi      = $request->deskripsi;
+        $berita->gambar         = ''; // sementara
+        $berita->keterangan_img = $request->keterangan_img;
+        $berita->tgl_agenda     = $request->tgl_agenda;
+        $berita->id_user        = $request->id_user;
+        $berita->save();
 
-        $kode = Berita::latest()->first()->id;
+        $kode = $berita->id;
+        // $kode = Berita::latest()->first()->id;
         $imgFotoName = $kode.'.'.$request->gambar->extension();
 
-        DB::table('beritas')
-            ->where('id', $kode)
-            ->update(['gambar' => $imgFotoName]);
+        // DB::table('beritas')
+        //     ->where('id', $kode)
+        //     ->update(['gambar' => $imgFotoName]);
+
+        $berita->update([
+            'gambar' => $imgFotoName
+        ]);
 
         if($request->jenis == 'agenda') {
             // $request->gambar->storeAs('berita/dataAgenda/'.$kode, $imgFotoName, 'public');
@@ -135,6 +141,21 @@ class BeritaController extends Controller
         return view('pages.admin.berita.show', compact('berita'));
     }
 
+    public function showWithSlug($slug)
+    {
+        $berita = Berita::where('slug', $slug)->firstOrFail();
+        return view('pages.admin.berita.show', compact('berita'));
+    }
+
+    public function regenerateSlug(Berita $berita)
+    {
+        // Reset slug agar generateSlug() di model bekerja
+        $berita->slug = null;
+        $berita->save();
+
+        return back()->with('success', 'Slug berhasil diregenerate');
+    }
+
     public function update(Request $request, Berita $berita)
     {
         $this->validate($request, [
@@ -145,14 +166,30 @@ class BeritaController extends Controller
             'tgl_agenda' => 'nullable'
         ]);
 
-        $berita->update($request->all());
+        // Cek apakah judul berubah
+        $judulBerubah = $request->judul !== $berita->judul;
+
+        // Update field biasa
+        $berita->fill($request->all());
+
+        if (empty($berita->slug) || $judulBerubah) {
+            $berita->slug = null;
+        }
+
+        // Simpan (generateSlug() akan dipanggil di model)
+        $berita->save();
+
+        // $berita->update($request->all());
 
         if($request->jenis == 'agenda') {
             return redirect()->route('dataAgenda')->with(['success' => 'Data berhasil diperbarui']);
+
         } else if($request->jenis == 'berita') {
             return redirect()->route('dataBerita')->with(['success' => 'Data berhasil diperbarui']);
+
         } else if($request->jenis == 'opini') {
             return redirect()->route('dataOpini')->with(['success' => 'Data berhasil diperbarui']);
+
         } else {
             return redirect()->route('dataTv')->with(['success' => 'Data berhasil diperbarui']);
         }

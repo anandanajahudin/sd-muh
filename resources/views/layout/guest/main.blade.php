@@ -24,6 +24,7 @@
 
     @include('layout.guest.script')
 
+    @yield('meta-custom')
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

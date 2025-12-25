@@ -64,13 +64,16 @@ Route::get('/agenda/{agenda}', [LandingController::class, 'agendaDetail'])->name
 
 Route::get('/berita', [LandingController::class, 'berita'])->name('berita');
 Route::get('/24-news', [LandingController::class, 'news'])->name('news');
-Route::get('/24-news/{berita}', [LandingController::class, 'newsDetail'])->name('newsDetail');
+Route::get('/24-news/detail/{berita}', [LandingController::class, 'newsDetail'])->name('newsDetail');
+Route::get('/24-news/{slug}', [LandingController::class, 'newsDetailSlug'])->name('newsDetailSlug');
 
 Route::get('/24-opini', [LandingController::class, 'opini'])->name('opini');
-Route::get('/24-opini/{berita}', [LandingController::class, 'opiniDetail'])->name('opiniDetail');
+Route::get('/24-opini/detail/{berita}', [LandingController::class, 'opiniDetail'])->name('opiniDetail');
+Route::get('/24-opini/{slug}', [LandingController::class, 'opiniDetailSlug'])->name('opiniDetailSlug');
 
 Route::get('/24-tv', [LandingController::class, 'tv'])->name('tv');
-Route::get('/24-tv/{berita}', [LandingController::class, 'tvDetail'])->name('tvDetail');
+Route::get('/24-tv/detail/{berita}', [LandingController::class, 'tvDetail'])->name('tvDetail');
+Route::get('/24-tv/{slug}', [LandingController::class, 'tvDetailSlug'])->name('tvDetailSlug');
 
 // PPDB
 Route::get('/spmb', [LandingController::class, 'ppdb'])->name('spmb');
@@ -300,6 +303,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/addAgenda', [BeritaController::class, 'addAgenda'])->name('addAgenda');
     Route::post('/dataAgenda/store', [BeritaController::class, 'store'])->name('berita.store');
     Route::get('/dataAgenda/{berita}', [BeritaController::class, 'show']);
+    Route::get('/dataAgenda/{slug}', [BeritaController::class, 'showWithSlug']);
     Route::put('/dataAgenda/{berita}', [BeritaController::class, 'update'])->name('berita.update');
     Route::put('/dataAgenda/updateGambar/{berita}', [BeritaController::class, 'updateGambar'])->name('berita.updateGambar');
     Route::delete('/dataAgenda/{berita}', [BeritaController::class, 'destroy'])->name('berita.destroy');
@@ -308,7 +312,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dataBerita', [BeritaController::class, 'dataBerita'])->name('dataBerita');
     Route::get('/addBerita', [BeritaController::class, 'addBerita'])->name('addBerita');
     Route::post('/dataBerita/store', [BeritaController::class, 'store'])->name('berita.store');
+    Route::post('/dataBerita/{berita}/regenerate-slug', [BeritaController::class, 'regenerateSlug'])->name('berita.regenerateSlug');
     Route::get('/dataBerita/{berita}', [BeritaController::class, 'show']);
+    Route::get('/dataBerita/{slug}', [BeritaController::class, 'showWithSlug']);
     Route::put('/dataBerita/{berita}', [BeritaController::class, 'update'])->name('berita.update');
     Route::put('/dataBerita/updateGambar/{berita}', [BeritaController::class, 'updateGambar'])->name('berita.updateGambar');
     Route::delete('/dataBerita/{berita}', [BeritaController::class, 'destroy'])->name('berita.destroy');
@@ -317,7 +323,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dataOpini', [BeritaController::class, 'dataOpini'])->name('dataOpini');
     Route::get('/addOpini', [BeritaController::class, 'addOpini'])->name('addOpini');
     Route::post('/dataOpini/store', [BeritaController::class, 'store'])->name('berita.store');
+    Route::post('/dataOpini/{berita}/regenerate-slug', [BeritaController::class, 'regenerateSlug'])->name('berita.regenerateSlug');
     Route::get('/dataOpini/{berita}', [BeritaController::class, 'show']);
+    Route::get('/dataOpini/{slug}', [BeritaController::class, 'showWithSlug']);
     Route::put('/dataOpini/{berita}', [BeritaController::class, 'update'])->name('berita.update');
     Route::put('/dataOpini/updateGambar/{berita}', [BeritaController::class, 'updateGambar'])->name('berita.updateGambar');
     Route::delete('/dataOpini/{berita}', [BeritaController::class, 'destroy'])->name('berita.destroy');
@@ -326,7 +334,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dataTv', [BeritaController::class, 'dataTv'])->name('dataTv');
     Route::get('/addTv', [BeritaController::class, 'addTv'])->name('addTv');
     Route::post('/dataTv/store', [BeritaController::class, 'store'])->name('berita.store');
+    Route::post('/dataTv/{berita}/regenerate-slug', [BeritaController::class, 'regenerateSlug'])->name('berita.regenerateSlug');
     Route::get('/dataTv/{berita}', [BeritaController::class, 'show']);
+    Route::get('/dataTv/{slug}', [BeritaController::class, 'showWithSlug']);
     Route::put('/dataTv/{berita}', [BeritaController::class, 'update'])->name('berita.update');
     Route::put('/dataTv/updateGambar/{berita}', [BeritaController::class, 'updateGambar'])->name('berita.updateGambar');
     Route::delete('/dataTv/{berita}', [BeritaController::class, 'destroy'])->name('berita.destroy');

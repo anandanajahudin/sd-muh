@@ -33,11 +33,13 @@
 
                                 <img src="{{ asset('repo/ppdb/' . $gambar) }}" class="img-fluid" alt="">
 
-                                <a href="{{ route('ppdb.detail', $kelasMaster->id) }}" class="btn btn-primary btn-block mb-3">
+                                <a href="{{ route('ppdb.detail', $kelasMaster->id) }}" class="btn btn-primary btn-block mb-1">
                                     <span class="keterangan">Lihat Kelas</span>
                                 </a>
 
-                                {!! $kelasMaster->keterangan !!}
+                                <div class="keterangan-list">
+                                    {!! $kelasMaster->keterangan !!}
+                                </div>
                             </div>
                         </a>
                     </div>
@@ -114,3 +116,24 @@
     </div>
     </section><!-- End Pricing Section -->
 @endsection
+
+@push('scripts')
+<style>
+    .keterangan-list {
+        margin-top: 10px;
+        text-align: left;
+    }
+    
+    .keterangan-list ul {
+        padding-left: 20px;
+        margin-bottom: 0;
+    }
+    
+    .keterangan-list li {
+        list-style: disc;
+        text-align: left;
+    }
+
+</style>
+
+@endpush

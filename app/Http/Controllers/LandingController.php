@@ -329,6 +329,12 @@ class LandingController extends Controller
         return view('pages.guest.agenda.agenda_lengkap', compact('agenda'));
     }
 
+    public function agendaDetailSlug($slug)
+    {
+        $agenda = Berita::where('slug', $slug)->firstOrFail();
+        return view('pages.guest.agenda.agenda_lengkap', compact('agenda'));
+    }
+
     // ======================
     // NEWS
     // ======================
@@ -389,6 +395,12 @@ class LandingController extends Controller
         return view('pages.guest.news.news_detail', compact('berita'));
     }
 
+    public function newsDetailSlug($slug)
+    {
+        $berita = Berita::where('slug', $slug)->firstOrFail();
+        return view('pages.guest.news.news_detail', compact('berita'));
+    }
+
     public function opini()
     {
         $berita = Berita::with('userPost')
@@ -401,6 +413,12 @@ class LandingController extends Controller
 
     public function opiniDetail(Berita $berita)
     {
+        return view('pages.guest.opini.opini_detail', compact('berita'));
+    }
+
+    public function opiniDetailSlug($slug)
+    {
+        $berita = Berita::where('slug', $slug)->firstOrFail();
         return view('pages.guest.opini.opini_detail', compact('berita'));
     }
 
@@ -417,6 +435,12 @@ class LandingController extends Controller
 
     public function tvDetail(Berita $berita)
     {
+        return view('pages.guest.tv.tv_lengkap', compact('berita'));
+    }
+
+    public function tvDetailSlug($slug)
+    {
+        $berita = Berita::where('slug', $slug)->firstOrFail();
         return view('pages.guest.tv.tv_lengkap', compact('berita'));
     }
 

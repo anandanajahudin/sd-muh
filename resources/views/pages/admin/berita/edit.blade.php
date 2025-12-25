@@ -21,6 +21,25 @@
                     @enderror
                 </div>
 
+                <div class="form-group">
+                    <label class="form-label">Slug</label>
+                    <div class="input-group">
+                        <input type="text"
+                            class="form-control"
+                            value="{{ $berita->slug }}"
+                            readonly>
+
+                        <form action="{{ route('berita.regenerateSlug', $berita->id) }}"
+                            method="POST"
+                            onsubmit="return confirm('Yakin ingin regenerate slug?')">
+                            @csrf
+                            <button class="btn btn-warning" type="submit">
+                                🔄 Regenerate Slug
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
                 @if ($berita->jenis == 'agenda')
                     <div class="form-group">
                         <label class="form-label">Tanggal Agenda <span style="color:red">*</span></label>
