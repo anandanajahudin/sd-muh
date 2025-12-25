@@ -39,3 +39,51 @@
                 </div>
         </div>
 @endsection
+
+@section('meta-custom')
+    <!-- ====================== -->
+    <!-- META BERITA -->
+    <!-- ====================== -->
+    @php
+        // URL final
+        $shareUrl = $berita->slug
+            ? $berita->landingUrl()
+            : $berita->landingUrl();
+
+        // Gambar berita sesuai jenis
+        switch ($berita->jenis) {
+            case 'agenda':
+                $imagePath = 'repo/berita/dataAgenda/'.$berita->id.'/'.$berita->gambar;
+                break;
+            case 'berita':
+                $imagePath = 'repo/berita/dataBerita/'.$berita->id.'/'.$berita->gambar;
+                break;
+            case 'opini':
+                $imagePath = 'repo/berita/dataOpini/'.$berita->id.'/'.$berita->gambar;
+                break;
+            default:
+                $imagePath = 'repo/berita/dataTv/'.$berita->id.'/'.$berita->gambar;
+        }
+
+        $imageUrl = asset($imagePath);
+    @endphp
+
+    {{-- BASIC SEO --}}
+    <title>{{ $berita->judul }}</title>
+    <meta name="description" content="{{ Str::limit(strip_tags($berita->deskripsi), 160) }}">
+
+    {{-- OPEN GRAPH (WA, FB, IG) --}}
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ $berita->judul }}">
+    <meta property="og:description" content="{{ Str::limit(strip_tags($berita->deskripsi), 160) }}">
+    <meta property="og:url" content="{{ $shareUrl }}">
+    <meta property="og:image" content="{{ $imageUrl }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    {{-- TWITTER CARD (bonus) --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $berita->judul }}">
+    <meta name="twitter:description" content="{{ Str::limit(strip_tags($berita->deskripsi), 160) }}">
+    <meta name="twitter:image" content="{{ $imageUrl }}">
+@endsection
